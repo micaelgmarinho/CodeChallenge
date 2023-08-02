@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.codechallenge.domain.UserListUseCase
 import com.example.codechallenge.remote.UserDto
 import com.example.codechallenge.remote.UserService
 import com.example.codechallenge.remote.RetrofitModule
@@ -11,11 +12,11 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class UserListViewModel(
-    private val service: UserService
+    private val useCase: UserListUseCase
 ) : ViewModel() {
 
-    private val _users = MutableLiveData<List<UserDto>>()
-    val users: LiveData<List<UserDto>> = _users
+    private val _users = MutableLiveData<List<List<UserDto>>>()
+    val users: LiveData<List<List<UserDto>>> = _users
 
     init {
         getUsers()
@@ -24,8 +25,8 @@ class UserListViewModel(
     private fun getUsers() {
         viewModelScope.launch {
             try {
-                val response = service.fetchUser()
-                _users.value = response.users
+                val response = useCase.getList()
+                _users.value = response
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
@@ -38,8 +39,9 @@ class UserListViewModel(
 
         fun create(): UserListViewModel {
             val userService = RetrofitModule.createUsersService()
-            return UserListViewModel(userService)
+            val useCase = UserListUseCase(userService)
+            return UserListViewModel(useCase)
         }
 
     }
-}
+} //Criei esse gráfico de dependencia pq ainda não mexi com INJECAO DE DEPENDENCIA
