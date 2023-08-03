@@ -1,5 +1,5 @@
 # Code Challenge
-Code Challege desenvolvido para consumir dados de uma API e mostrar na tela para o usuário.
+Code Challenge desenvolvido para consumir dados de uma API e mostrar na tela para o usuário.
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
